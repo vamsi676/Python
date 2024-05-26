@@ -1,14 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.9' // Use the appropriate Python Docker image
-            args '-u root' // Optional: Run as root user if necessary
-        }
-    }
-
-    environment {
-        VIRTUALENV_NAME = 'venv'
-    }
+    agent any
 
     stages {
         stage('Checkout') {
@@ -19,9 +10,12 @@ pipeline {
 
         stage('Setup') {
             steps {
-                sh 'python -m venv ${VIRTUALENV_NAME}'
-                sh './${VIRTUALENV_NAME}/bin/pip install -r requirements.txt'
+                bat 'python -m venv ${VIRTUALENV_NAME}'
+                bat './${VIRTUALENV_NAME}/bin/pip install -r requirements.txt'
             }
         }
+        
+        // Add more stages here as needed
     }
+    // Add post-build actions or other configurations here
 }
